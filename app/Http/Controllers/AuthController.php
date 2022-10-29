@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BonusCard;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,12 @@ class AuthController extends Controller
             'sex' => $request->sex,
             'dob' => $request->dob,
             'password' => Hash::make($request->password)
+        ]);
+
+        BonusCard::create([
+           'user_id' => $user->id,
+           'balance' => 0,
+            'created_at' => now()
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

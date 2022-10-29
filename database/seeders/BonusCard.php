@@ -19,10 +19,12 @@ class BonusCard extends Seeder
             [
                 'user_id' => '1',
                 'balance' => '0',
+                'created_at' => now()
             ],
             [
                 'user_id' => '2',
                 'balance' => '0',
+                'created_at' => now()
             ],
         ]);
     }

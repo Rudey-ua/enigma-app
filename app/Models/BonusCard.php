@@ -9,5 +9,7 @@ class BonusCard extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'balance'];
+    const UPDATED_AT = null;
+    
+    protected $fillable = ['user_id', 'balance', 'created_at', 'updated_at'];
 }
