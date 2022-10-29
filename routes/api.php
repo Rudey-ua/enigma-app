@@ -17,14 +17,15 @@ use App\Http\Controllers\CategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+/*User*/
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+/*Products*/
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 Route::group(['middleware' => 'auth:sanctum'], function(){
@@ -33,12 +34,15 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
-Route::get('/categories', [CategoryController::class, 'index'])->name('products.index');
-Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('products.show');
-Route::post('/categories', [CategoryController::class, 'store'])->name('products.store');
-Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('products.update');
-Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('products.destroy');
+/*Category*/
+Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('/category/{id}/products', [CategoryController::class, 'getProducts']);
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::post('/categories', [CategoryController::class, 'store'])->name('category.store');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+});
 
 
 
