@@ -15,7 +15,7 @@ class ProductController extends Controller
         return response()->json([
             "status" => true,
             "products" => new ProductCollection($products)
-        ], 200);
+        ], 200)->setStatusCode(200, 'The resource has been fetched and transmitted in the message body.');
     }
 
     public function show($id)
@@ -25,7 +25,7 @@ class ProductController extends Controller
         if(!$product) return response()->json([
             "status" => false,
             "message" => "Product not found!"
-        ], 404)->setStatusCode(404, 'Product not found');
+        ], 404)->setStatusCode(404, 'Product not found!');
 
         return response()->json([
             "status" => true,
@@ -62,7 +62,7 @@ class ProductController extends Controller
         return response()->json([
             "status" => true,
             "product" => $product
-        ], 201)->setStatusCode(201, 'Product created successfully');
+        ], 201)->setStatusCode(201, 'Product created successfully!');
     }
 
     public function update($id, Request $request)
@@ -87,7 +87,7 @@ class ProductController extends Controller
         if(!$product) return response()->json([
             "status" => false,
             "message" => "Product not found!"
-        ], 404)->setStatusCode(404, 'Product not found');
+        ], 404)->setStatusCode(404, 'Product not found!');
 
         $product->name = $request->name;
         $product->price = $request->price;
@@ -100,7 +100,7 @@ class ProductController extends Controller
         return response()->json([
             "status" => true,
             "product" => $product
-        ], 200)->setStatusCode(200, 'Product is updated');
+        ], 200)->setStatusCode(200, 'Product is updated!');
     }
 
     public function destroy($id)
@@ -110,13 +110,13 @@ class ProductController extends Controller
         if(!$product) return response()->json([
             "status" => false,
             "message" => "Product not found!"
-        ], 404)->setStatusCode(404, 'Product not found');
+        ], 404)->setStatusCode(404, 'Product not found!');
 
         $product->delete();
 
         return response()->json([
             "status" => true,
-            "message" => 'Product is deleted'
-        ], 200)->setStatusCode(200, 'Product is deleted');
+            "message" => 'Product is deleted!'
+        ], 200)->setStatusCode(200, 'Product is deleted!');
     }
 }
