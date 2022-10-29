@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use http\Env\Response;
+use App\Http\Resources\Product as ProductResource;
+use App\Http\Resources\ProductCollection;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,7 +14,7 @@ class ProductController extends Controller
         $products = Product::all();
         return response()->json([
             "status" => true,
-            "products" => $products
+            "products" => new ProductCollection($products)
         ], 200);
     }
 
@@ -28,7 +29,7 @@ class ProductController extends Controller
 
         return response()->json([
             "status" => true,
-            "product" => $product
+            "product" => new ProductResource($product)
         ], 200);
     }
 
