@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Helpers\ProductHelper;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Resources\ProductCollection;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -35,25 +36,12 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->only(['name', 'price', 'img_url', 'supermarket_id', 'category_id', 'measure']);
-
-        $request->validate([
-            'name' => 'required|unique:products|string|min:5|max:100',
-            'price' => 'required|numeric',
-            'img_url' => 'required|mimes:jpg|max:2048',
-            'supermarket_id' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'measure' => 'required',
-        ]);
-
-        $file = $request->file('img_url');
-        $fileName = time().'_'.$file->getClientOriginalName();
-        $filePath = $request->file('img_url')->storeAs('uploads', $fileName, 'public');
+        ProductHelper::StoreAndUpdateValidation($request);
 
         $product = Product::create([
             "name" => $request->name,
             "price" => $request->price,
-            "img_url" => '/storage/' . $filePath,
+            "img_url" => '/storage/' . (new ProductHelper())->GetProductFilePath($request),
             "supermarket_id" => $request->supermarket_id,
             "category_id" => $request->category_id,
             "measure" => $request->measure,
@@ -67,20 +55,7 @@ class ProductController extends Controller
 
     public function update($id, Request $request)
     {
-        $request->only(['name', 'price', 'img_url', 'supermarket_id', 'category_id', 'measure']);
-
-        $request->validate([
-            'name' => 'required|unique:products|string|min:5|max:100',
-            'price' => 'required|numeric',
-            'img_url' => 'required|mimes:jpg,png|max:2048',
-            'supermarket_id' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'measure' => 'required',
-        ]);
-
-        $file = $request->file('img_url');
-        $fileName = time().'_'.$file->getClientOriginalName();
-        $filePath = $request->file('img_url')->storeAs('uploads', $fileName, 'public');
+        ProductHelper::StoreAndUpdateValidation($request);
 
         $product = Product::find($id);
 
@@ -91,7 +66,7 @@ class ProductController extends Controller
 
         $product->name = $request->name;
         $product->price = $request->price;
-        $product->img_url = '/storage/' . $filePath;
+        $product->img_url = '/storage/' . (new ProductHelper())->GetProductFilePath($request);
         $product->supermarket_id = $request->supermarket_id;
         $product->category_id = $request->category_id;
         $product->measure = $request->measure;
