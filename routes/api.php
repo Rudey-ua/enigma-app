@@ -44,7 +44,14 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 });
 
+/*Supermarket*/
+Route::get('/supermarkets', [SupermarketController::class, 'index'])->name('supermarket.index');
+Route::get('/supermarkets/{id}', [SupermarketController::class, 'show'])->name('supermarket.show');
+Route::get('/supermarket/{id}/products', [SupermarketController::class, 'getProducts']);
 
+Route::post('/supermarkets', [SupermarketController::class, 'store'])->name('supermarket.store');
+Route::put('/supermarkets/{id}', [SupermarketController::class, 'update'])->name('supermarket.update');
+Route::delete('/supermarkets/{id}', [SupermarketController::class, 'destroy'])->name('supermarket.destroy');
 
 
 
