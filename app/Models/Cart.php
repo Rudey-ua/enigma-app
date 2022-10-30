@@ -10,4 +10,6 @@ class Cart extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'user_id'];
+
+    const UPDATED_AT = null;
 }

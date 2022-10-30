@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupermarketController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,13 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::delete('/supermarkets/{id}', [SupermarketController::class, 'destroy'])->name('supermarket.destroy');
 });
 
+Route::get('/wishlists', [CartController::class, 'index'])->name('wishlist.index');
+Route::get('/wishlists/{id}', [CartController::class, 'show'])->name('wishlist.show');
 
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::post('/wishlists', [CartController::class, 'store'])->name('wishlist.store');
+    Route::put('/wishlists/{id}', [CartController::class, 'update'])->name('wishlist.update');
+    Route::delete('/wishlists/{id}', [CartController::class, 'destroy'])->name('wishlist.destroy');
+});
 
 
