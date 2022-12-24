@@ -10,4 +10,11 @@ class Supermarket extends Model
     use HasFactory;
 
     protected $fillable = ['address', 'phone'];
+
+    public $timestamps = false;
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
